@@ -18,7 +18,7 @@ class Metro
 {
     vector<Node*> roots;
     int total_stations;
-
+    
 public:
     Metro()
     {
@@ -73,6 +73,14 @@ public:
         cout<<"Station: "<<find_name<<" Does not exist"<<endl;
         return nullptr;
     }
+
+    void AddConnection(Node* A, Node* B, int dist)
+    {
+        A->connections.push_back({B,dist});
+        B->connections.push_back({A,dist});
+    }
+
+    
 };
 
 int main()
