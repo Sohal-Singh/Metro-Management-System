@@ -79,7 +79,67 @@ public:
         A->connections.push_back({B,dist});
         B->connections.push_back({A,dist});
     }
+void Insert(string name, vector<string> lines, string previousStation = "", int dist = 0)
+{
+    for(Node* root : roots)
+    {
+        Node* existing = FindStation(root, name);
 
+        if(existing != nullptr)
+        {
+            cout << "Station " << name << " already exists." << endl;
+            return;
+        }
+    }
+
+    Node* newNode = new Node(name, lines);
+
+    if(roots.empty())
+    {
+        roots.push_back(newNode);
+        total_stations++;
+
+        cout << "First station " << name << " inserted successfully." << endl;
+        return;
+    }
+
+    if(previousStation == "")
+    {
+        roots.push_back(newNode);
+        total_stations++;
+
+        cout << "First station of new line " << name
+             << " inserted successfully." << endl;
+        return;
+    }
+
+    Node* previous = nullptr;
+
+    for(Node* root : roots)
+    {
+        previous = FindStation(root, previousStation);
+
+        if(previous != nullptr)
+            break;
+    }
+
+    if(previous == nullptr)
+    {
+        cout << "Previous station " << previousStation
+             << " does not exist." << endl;
+
+        delete newNode;
+        return;
+    }
+
+    AddConnection(previous, newNode, dist);
+
+    total_stations++;
+
+    cout << "Station " << name
+         << " inserted successfully after "
+         << previousStation << "." << endl;
+}
     
 };
 
